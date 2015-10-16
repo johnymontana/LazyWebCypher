@@ -39,7 +39,9 @@ Simply supply the connection url (and optionally Username/Password credentials) 
 
 **What are some examples that I can use with LazyWebCypher?**
 
-*[FEC Filings 2015]()
+Submit an issue or PR to add yours!
+
+*[FEC Filings 2015](http://johnymontana.github.io/LazyWebCypher?file=https://gist.githubusercontent.com/johnymontana/fd3de5219e9a15e67fb7/raw/7f25d1f2b37a1811720b1d3339335a60b7c6e35f/FEC-2015.cql)
 *[legis-graph: US Congress in a Graph]()
 
 ## Think this is lame?
