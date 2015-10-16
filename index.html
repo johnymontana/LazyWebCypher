@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>LazyWebCypher</title>
+
+      <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+
+      <!-- Latest compiled and minified CSS -->
+      <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+      <!-- Optional theme -->
+      <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+      <link rel="stylesheet" href="/styles/spinner.css">
+      
+
+      <!-- Latest compiled and minified JavaScript -->
+      <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+      <script src="/js/async.min.js"></script>
+
+    
+      <!-- lodash -->
+      <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/3.10.1/lodash.min.js"></script>
+
+
+
+  </head>
+  <body>
+  <a href="https://github.com/johnymontana/LazyWebCypher"><img style="position: absolute; top: 0; right: 0; border: 0; z-index: 9999;" src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png"></a>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+          <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                  <span class="sr-only">Toggle navigation</span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="#">LazyWebCypher - <small>The lazy way to run multi-statement Cypher scripts in Neo4j from the web</small></a>
+          </div>
+      </div>
+  </nav>
+<div class="container">
+    <div class="starter-template">
+<div class="alert alert-info alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    Now you're ready to load your data into Neo4j! View the Cypher scripts to import your data below or you can connect directly to an existing Neo4j instance.
+</div>
+
+<div class="row">
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#loadcsv" aria-controls="loadcsv" role="tab" data-toggle="tab">1: Get that Cypher!</a></li>
+        <li role="presentation"><a href="#connect" aria-controls="connect" role="tab" data-toggle="tab">2: Run that Cypher!</a></li>
+        
+    </ul>
+
+    <div class="tab-content">
+
+        <div role="tabpanel" class="tab-pane" id="connect">
+            <h2 class="text-left">Connect to Neo4j <small>Import to an existing Neo4j instance</small></h2>
+
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label for="inputNeo4jURL" class="col-sm-2 control-label">Neo4j URL</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="inputNeo4jURL" placeholder="http://localhost:7474" value="http://localhost:7474" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputNeo4jUser" class="col-sm-2 control-label">Neo4j Username</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="inputNeo4jUser" placeholder="(Optional)">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputNeo4jPassword" class="col-sm-2 control-label">Neo4j Password</label>
+                    <div class="col-sm-6">
+                        <input type="password" class="form-control" id="inputNeo4jPassword" placeholder="(Optional)">
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-default" id="importButton">Import</button>
+                    </div>
+                </div>
+            </form>
+
+            <div class="col-sm-6">
+                <textarea class="form-control" id="statusTextArea" rows="10" disabled>Status...</textarea>
+            </div>
+        </div>
+
+        <div role="tabpanel" class="tab-pane active" id="loadcsv">
+            <h2 class="text-left">Load Cypher Script <small>Load a Cypher file from a remote URL or local file.</small></h2>
+            <p class="text-left"></code></p>
+
+            <div class="row"> 
+
+                <div class="col-sm-5">
+                <form>
+                    <div class="form-group">
+                        <label for="remoteURLInput">Remote URL</label>
+                        <input type="url" class="form-control" id="remoteURLInput" placeholder="http://some-remote.com/file.cypher">
+                        <span id="helpBlock" class="help-block">Enter the URL for a remote Cypher file, such as a <a href="/?file=https://gist.githubusercontent.com/johnymontana/fd3de5219e9a15e67fb7/raw/7f25d1f2b37a1811720b1d3339335a60b7c6e35f/FEC-2015.cql">gist</a>, here.</span>
+                    </div>
+                     <button type="submit" id="remoteURLButton" class="btn btn-default">Load Remote Cypher File</button>
+                </form>
+                </div>
+
+                <div class="col-sm-2">
+                    <h4 class="text-center">-OR-</h4>
+                </div>
+
+                <div class="col-sm-5">
+                     <form>
+                    <div class="form-group">
+                        <label for="localInputFile">Load Local Cypher File</label>
+                        <input type="file" id="localInputFile">
+                        <p class="help-block">Select a local file for upload</p>
+                    </div>
+                </form>
+                </div>
+            </div>
+            <div style="height:20px;">
+            </div>
+
+            <div class="row">
+            
+            <textarea class="form-control" id="loadCSVCypherText" rows="25">
+// CYPHER GOES HERE
+            </textarea>
+            </div>
+        </div>
+        
+    </div>
+
+
+</div>
+
+<script>
+    // http://stackoverflow.com/a/901144/2954199
+    function getParameterByName(name) {
+        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+            results = regex.exec(location.search);
+        return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
+
+    $(function(){
+
+        var fileURL = getParameterByName("file");
+        if (fileURL) {
+            $.get(fileURL, function(d) {
+                $('#loadCSVCypherText').val(d);
+            })
+        }
+
+        $('#remoteURLButton').click(function(e) {
+            e.preventDefault();
+
+            var fileURL = $('#remoteURLInput').val();
+            // FIXME: if isValidURL(fileURL)...
+            if (fileURL === '') {
+                alert("Please enter a valid remote URL")
+            } else {
+                $.get(fileURL, function(d) {
+                    $('#loadCSVCypherText').val(d);
+                })
+            }
+        })
+
+        $('#localInputFile').change(function(e) {
+            var input = this;
+
+            if (input.files && input.files[0]) {
+                f = input.files[0];
+                reader = new FileReader();
+                reader.onload = function(event) {
+                    $('#loadCSVCypherText').val(event.target.result);
+                }
+                reader.readAsText(f);
+
+            }
+        })
+
+        $('#importButton').click(function(e) {
+            e.preventDefault();
+
+
+            var neo4jURL = $('#inputNeo4jURL').val(),
+                neo4jUser = $('#inputNeo4jUser').val(),
+                neo4jPassword = $('#inputNeo4jPassword').val();
+            $('#statusTextArea').val("Running query...");
+
+            if (neo4jURL === '') {
+                alert("You must specify a valid URL for an existing Neo4j instance.");
+                return false;
+            }
+
+            var neo4jConn = {
+                "neo4jURL": neo4jURL,
+                "neo4jUser": neo4jUser,
+                "neo4jPassword": neo4jPassword
+            };
+
+            var statements = [],
+                constraintStatements = [];
+
+            var cypherArr = $('#loadCSVCypherText').val().split(";");
+            console.log(cypherArr);
+
+            _.forEach(cypherArr, function(cypher) {
+                var obj = {};
+                obj['statement'] = cypher;
+                obj['parameters'] = {};
+                obj['includeStats'] = true;
+                obj['resultDataContents'] = ["row", "graph"];
+                if (cypher.length > 3) {
+                    statements.push(obj);
+                }
+            });
+
+            var url = neo4jURL.replace(/\/db\/data.*/,"") + "/db/data/transaction/commit";
+            function authHeader() {
+                if (neo4jUser && neo4jPassword) {
+                    return {"Authorization": "Basic " + btoa(neo4jUser + ":" + neo4jPassword)};
+                } else {
+                    return {};
+                }
+            }
+
+            console.log(statements);
+
+            
+            function makeCypherRequest(statement, callback) {
+                $.ajax({
+                    type: 'POST',
+                    data: JSON.stringify({
+                        statements: [statement]
+                    }),
+                    contentType: 'application/json',
+                    url: url,
+                    error: function(xhr, statusText, errorThrown){
+                        $('#statusTextArea').val(xhr.responseText || "Request failed, check authorization settings.");
+                        $('#importButton').empty().text('Import');
+                        callback("Error");
+                    },
+                    headers: authHeader(),
+                    success: function(data) {
+                        console.log(data);
+                        $('#statusTextArea').val($('#statusTextArea').val() + JSON.stringify(data, null, 4));
+                        //$('#statusTextArea').scrollTop($('#statusTextArea')[0].scrollHeight);
+                        callback();
+                        
+                    }
+                });
+            }
+
+            $('#importButton').html($('<span class="spinner-loader">Loading…</span>'));
+
+
+            async.eachSeries(statements, makeCypherRequest, function(err){
+                if (err) {
+                    console.log("Request Error");
+                    console.log(err);
+                } else {
+                    // All queries executed successfully
+                    console.log("ALL DONE!");
+                    $('#statusTextArea').val($('#statusTextArea').val() + " \n ALL DONE!");
+                    $('#importButton').empty().text('Import');
+                }
+            });
+
+        });
+    });
+</script>
+</div>
+</div>
+</body>
+  <script>
+      // GOOGLE ANALYTICS HERE
+
+  </script>
+</html>
