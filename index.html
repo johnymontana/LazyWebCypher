@@ -209,7 +209,7 @@
             var statements = [],
                 constraintStatements = [];
 
-            var cypherArr = $('#loadCSVCypherText').val().split(";");
+            var cypherArr = $('#loadCSVCypherText').val().split(";\n");
             console.log(cypherArr);
 
             _.forEach(cypherArr, function(cypher) {
